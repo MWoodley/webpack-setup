@@ -1,0 +1,12 @@
+// Linear Gradient
+@function get-stops($c-list) {
+    $s-list: ();
+    $n: length($c-list);
+    $u: 100% / $n;
+
+    @for $i from 1 to $n {
+        $s-list: $s-list, nth($c-list, $i) $i * $u, nth($c-list, $i + 1) 0;
+    }
+
+    @return $s-list;
+}

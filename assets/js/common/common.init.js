@@ -1,1 +1,1 @@
-console.log("Printing from common.init.js");
+console.log("Log from common.init.js");

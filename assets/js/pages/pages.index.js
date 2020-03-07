@@ -1,1 +1,3 @@
-console.log("Printing from pages.index.js");
+import { accordian } from "../stdjs/accordian";
+
+console.log("Log from pages.index.js");

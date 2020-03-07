@@ -2,6 +2,7 @@ const path = require("path");
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
 
 const assetsPath = path.join(__dirname, "assets");
 const assetsJSPath = path.join(assetsPath, "js");
@@ -27,9 +28,9 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "public", "dist"),
-        publicPath: "/public/",
-        filename: "js/[name].js",
-        chunkFilename: "js/[id].js",
+        publicPath: "/dist/",
+        filename: "js/[name]-[contenthash].js",
+        chunkFilename: "js/[id]-[contenthash].js",
     },
     module: {
         rules: [
@@ -61,6 +62,29 @@ module.exports = {
                     "sass-loader",
                 ],
             },
+            {
+                test: /\.(png|jp(e*)g)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "images/[name].[ext]",
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "[name]-[hash].[ext]",
+                            outputPath: "fonts",
+                        },
+                    },
+                ],
+            },
         ],
     },
     resolve: {
@@ -70,8 +94,9 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: "css/[name].css",
-            chunkFilename: "css/[id].css",
+            filename: "css/[name]-[contenthash].css",
+            chunkFilename: "css/[id]-[contenthash].css",
         }),
+        new ManifestPlugin(),
     ],
 };
